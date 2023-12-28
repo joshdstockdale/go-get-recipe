@@ -1,0 +1,26 @@
+package layout
+
+templ Base() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>Template Application</title>
+			<link rel="stylesheet" id="style-css" href="/public/css/style.css" type="text/css" media="all" />
+			<link rel="stylesheet" id="style-css" href="/public/css/theme.css" type="text/css" media="all" />
+			<script src="https://unpkg.com/htmx.org@1.9.9" defer></script>
+			<link rel="icon" type="image/x-icon" href="/public/img/favicon.svg" />
+		</head>
+		<body class="bg-stone-50 dark:bg-black">
+		  <div class="flex flex-col items-center w-full">
+        <div class="w-[95%] max-w-screen-xl">
+		      { children... } 
+	      </div>
+        <div class="bg-stone-900 h-20 w-full p-4 flex items-center justify-center mt-20 text-center">
+          <small>&#169; Copyright 2023 Joshua Stockdale.<br />All rights reserved.</small>
+        </div>
+      </div>
+		</body>
+	</html>
+}

@@ -1,0 +1,18 @@
+package page
+
+import (
+  "get-recipe-inator/view/layout"
+	"get-recipe-inator/model"
+	"get-recipe-inator/view/component"
+)
+
+templ Dash(user model.User) {
+    @layout.Base() {
+<div class="flex pb-6 mt-8 md:mt-0">
+  <h1>{ user.Email}</h1>
+</div>
+<div class="flex flex-row flex-wrap gap-8">
+</div>
+        @component.Input("text", "Hellp")
+    }
+}
