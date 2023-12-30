@@ -1,0 +1,19 @@
+package component
+
+import (
+	"get-recipe-inator/model"
+)
+
+templ List(recipes []model.Recipe){
+  <h2>Recipes</h2>
+  <div class="flex flex-wrap gap-4">
+  for _, r := range recipes{
+    <div class="w-52">
+      <a class="hover:cursor-pointer" hx-get={"/detail?url="+r.Url} hx-target="#main" hx-swap="innerHTML" >
+      <img src={r.Img[0]} class="w-52" />
+      {r.Title}
+      </a>
+    </div>
+  }
+  </div>
+}	

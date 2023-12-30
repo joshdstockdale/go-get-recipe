@@ -1,0 +1,20 @@
+package component
+
+import (
+	"get-recipe-inator/model"
+)
+
+templ Detail(r model.Recipe){
+  
+  <h2>{r.Title}</h2>
+  <img src={r.Img[0]} class="w-2/3" />
+  <div class="flex">
+  <ul>
+  for _, i := range r.Ingredients{
+      <li>
+      {i}
+      </li>
+  }
+  </ul>
+  </div>
+}	

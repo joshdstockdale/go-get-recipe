@@ -5,15 +5,16 @@ import (
 	"get-recipe-inator/middleware"
 
 	"github.com/labstack/echo/v4"
-	// "get-recipe-inator/handler"
 )
 
 func main() {
 	app := echo.New()
 	app.Static("/public", "public")
-	pageHandler := handler.PageHandler{}
+	urlHandler := handler.UrlHandler{}
 	app.Use(middleware.WithUser)
-	app.GET("/", pageHandler.HandleDashShow)
+	app.GET("/", urlHandler.HandleHome)
+	app.GET("/list", urlHandler.HandleList)
+	app.GET("/detail", urlHandler.HandleDetail)
 
 	app.Start(":3000")
 }

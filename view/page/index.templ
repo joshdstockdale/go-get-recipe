@@ -1,0 +1,19 @@
+package page
+
+import (
+  "get-recipe-inator/view/layout"
+	"get-recipe-inator/model"
+	"get-recipe-inator/view/component"
+)
+
+templ Index(categories []model.Category) {
+  @layout.Base() {
+  <div class="flex pb-6 mt-4">
+    <h1>Please Select</h1>
+  </div>
+  <div class="flex flex-row flex-wrap gap-8">
+    @component.Select(categories)
+  </div>
+  <section id="main" class="mt-4"></section>
+  }
+}

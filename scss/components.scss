@@ -1,2 +1,5 @@
 @layer components {
+  select {
+    @apply text-white bg-black border-stone-700 border p-1;
+  }
 }

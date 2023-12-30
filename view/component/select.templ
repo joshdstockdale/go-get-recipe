@@ -1,0 +1,16 @@
+package component
+
+import (
+	"get-recipe-inator/model"
+)
+
+templ Select(categories []model.Category){
+  <select name="category" hx-get="/list" hx-target="#main" hx-swap="innerHTML">
+    <option>Please Select</option>
+    
+  for _, r := range categories{
+    <option value={string(r)}>{string(r)}</option>
+  }
+  </select>
+}
+	
