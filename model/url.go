@@ -12,13 +12,15 @@ type Child struct {
 }
 
 type List struct {
-	Url string
-	Category
 	Selector  string
 	Title     string
 	Img       []string
+	Url       string
 	Paginator string
+	Include   []string
+	Exclude   []string
 	Recipe
+	Category
 	//children  []Child
 }
 
@@ -33,6 +35,10 @@ type Recipe struct {
 type Category string
 
 const (
-	Burger Category = "Burger or BBQ"
 	Asian  Category = "Asian"
+	Taco   Category = "Taco or Burrito"
+	Pasta  Category = "Pasta"
+	Fish   Category = "Fish"
+	Burger Category = "Burger or BBQ"
+	Soup   Category = "Soup"
 )

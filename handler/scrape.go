@@ -17,12 +17,13 @@ var urls []model.List
 func InitUrls() []model.List{
 	return []model.List{
 		{
-			Url: "https://thewoksoflife.com/category/recipes/chinese-take-out/",
-			Category: model.Asian,
 			Selector: ".entry-header",
 			Title: ".entry-title-link",
 			Img: []string{"img"},
+			Url: "https://thewoksoflife.com/category/recipes/chinese-take-out/",
+			Exclude: []string{"Chicken", "Turkey"},
 			Paginator: ".pagination ul li a",
+			Category: model.Asian,
 			Recipe: model.Recipe{
 				Selector: "main",
 				Title: ".entry-title",
@@ -32,11 +33,13 @@ func InitUrls() []model.List{
 			},
 		},
 		{
-			Url: "https://www.inspiredtaste.net/category/recipes/main-dishes/",
-			Category: model.Burger,
 			Selector: ".box-container .post_box",
 			Title: ".headline",
 			Img: []string{"img"},
+			Url: "https://www.inspiredtaste.net/category/recipes/main-dishes/",
+			Include: []string{"Pork", "Beef", "Burger", "Steak", "Ribs", "BBQ", "Chili"},
+			Exclude: []string{"Chicken", "Turkey"},
+			Category: model.Burger,
 			Paginator: "a.page",
 			Recipe: model.Recipe{
 				Selector: ".post_box",
@@ -49,7 +52,7 @@ func InitUrls() []model.List{
 	}
 }
 func (u UrlHandler) HandleHome(cx echo.Context)error{
-	categories := []model.Category{model.Asian, model.Burger}
+	categories := []model.Category{model.Asian, model.Burger, model.Soup}
 	return render(cx, page.Index(categories))
 }
 
@@ -70,26 +73,42 @@ func (u UrlHandler) HandleList(cx echo.Context) error {
 		colly.AllowedDomains(allowed...),
 		colly.CacheDir("./list_cache"),
 	)
-	
+
 	var recipes []model.Recipe
+	var pages []string
 	for _, u := range matched {
-
 		c.OnHTML(u.Selector, func(e *colly.HTMLElement){
-			
-			// fmt.Printf("Img %v\n Title %v\n Url %v\n", e.ChildAttr(u.Img, "data-src"), e.ChildText("a[href]"), e.ChildAttr("a", "href"))
-			img := getImg(e, u.Img)
-			recipes = append(recipes, 
-				model.Recipe{
-					Img: []string{img}, 
-					Title: strings.TrimSpace(e.ChildText(u.Title)), 
-					Url: e.ChildAttr(u.Recipe.Url,"href"),
-
-				})
+			recipes = getRecipes(u, recipes, e)
 		})
+
+		c.OnHTML(u.Paginator, func(e *colly.HTMLElement){
+			pages = append(pages,e.Request.AbsoluteURL(e.Attr("href")))
+		})
+
 		c.Visit(u.Url)
+	}
+	for _, p := range pages {
+			c.Visit(p)
 	}
 		
 	return render(cx, component.List(recipes))	
+}
+
+func getRecipes(u model.List,recipes []model.Recipe, e *colly.HTMLElement)[]model.Recipe{
+			title := strings.TrimSpace(e.ChildText(u.Title))
+			//fmt.Printf("Exclude: %v", isContains(u.Exclude, title))
+			if !isContains(u.Exclude, title) {
+				if len(u.Include) == 0 || isContains(u.Include, title){
+				img := getImg(e, u.Img)
+				recipes = append(recipes, 
+					model.Recipe{
+						Img: []string{img}, 
+						Title: title, 
+						Url: e.ChildAttr(u.Recipe.Url,"href"),
+					})
+				}
+			}
+			return recipes
 }
 
 func (u UrlHandler) HandleDetail(cx echo.Context) error {
@@ -108,7 +127,7 @@ func (u UrlHandler) HandleDetail(cx echo.Context) error {
 
 	c := colly.NewCollector(
 		colly.AllowedDomains(allowed...),
-		colly.CacheDir("./recipe_cache"),
+		colly.CacheDir("./detail_cache"),
 	)
 	
 	var recipe model.Recipe
@@ -116,8 +135,6 @@ func (u UrlHandler) HandleDetail(cx echo.Context) error {
 	if empty.Title != matched.Title {
 
 		c.OnHTML(matched.Recipe.Selector, func(e *colly.HTMLElement){
-			
-			// fmt.Printf("Img %v\n Title %v\n Url %v\n", e.ChildAttr(u.Img, "data-src"), e.ChildText("a[href]"), e.ChildAttr("a", "href"))
 			img := getImg(e, matched.Recipe.Img)
 			recipe = model.Recipe{
 					Img: []string{img}, 
@@ -131,7 +148,17 @@ func (u UrlHandler) HandleDetail(cx echo.Context) error {
 		
 	return render(cx, component.Detail(recipe))	
 }
-
+func isContains(ex []string, title string )bool{
+	if len(ex) > 0{
+		for _, e := range ex{
+			lower := strings.ToLower(title)
+			if strings.Contains(lower, strings.ToLower(e)) {
+				return true
+			}	
+		}
+	}	
+	return false
+}
 func getImg(e *colly.HTMLElement, imgs []string) string{
 	var img string
 	for _, i := range imgs {
