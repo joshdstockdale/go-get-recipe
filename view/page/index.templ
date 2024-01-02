@@ -6,7 +6,7 @@ import (
 	"get-recipe-inator/view/component"
 )
 
-templ Index(categories []model.Category) {
+templ Index(categories []model.Category, category string, url string ) {
   @layout.Base() {
   <div class="flex pb-6 mt-4">
     <h1>Please Select</h1>
@@ -14,6 +14,13 @@ templ Index(categories []model.Category) {
   <div class="flex flex-row flex-wrap gap-8">
     @component.Select(categories)
   </div>
-  <section id="main" class="mt-4"></section>
+  <section id="main" class="mt-4">
+    if ( category != "") {
+       <div hx-get={"/recipes?category="+category} hx-trigger="load" hx-target="#main" hx-swap="innerHTML"></div>
+    }
+    if ( url != "") {
+       <div hx-get={"/recipe?url="+url} hx-trigger="load" hx-target="#main" hx-swap="innerHTML"></div>
+    }
+  </section>
   }
 }

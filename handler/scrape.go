@@ -53,10 +53,12 @@ func InitUrls() []model.List{
 }
 func (u UrlHandler) HandleHome(cx echo.Context)error{
 	categories := []model.Category{model.Asian, model.Burger, model.Soup}
-	return render(cx, page.Index(categories))
+	category := cx.Param("category")
+	url := cx.Param("url")
+	return render(cx, page.Index(categories, category, url))
 }
 
-func (u UrlHandler) HandleList(cx echo.Context) error {
+func (u UrlHandler) HandleRecipes(cx echo.Context) error {
 	urls := InitUrls()
 	category := cx.QueryParam("category")
 	// var allowed []string
@@ -111,7 +113,7 @@ func getRecipes(u model.List,recipes []model.Recipe, e *colly.HTMLElement)[]mode
 			return recipes
 }
 
-func (u UrlHandler) HandleDetail(cx echo.Context) error {
+func (u UrlHandler) HandleRecipe(cx echo.Context) error {
 	urls := InitUrls()
 	url := cx.QueryParam("url")
 	// var allowed []string

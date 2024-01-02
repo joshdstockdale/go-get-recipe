@@ -4,13 +4,31 @@ import (
 	"get-recipe-inator/model"
 )
 
-templ Select(categories []model.Category){
-  <select name="category" hx-get="/list" hx-target="#main" hx-swap="innerHTML">
-    <option>Please Select</option>
-    
-  for _, r := range categories{
-    <option value={string(r)}>{string(r)}</option>
+script toggleMenu(){
+  if (typeof window.menuOpen == "undefined"){
+    window.menuOpen = false
   }
-  </select>
+  window.menuOpen = !window.menuOpen
+
+  if (window.menuOpen) {
+    htmx.removeClass(htmx.find("#menu"), "hidden")
+    htmx.addClass(htmx.find("#menu"), "block")
+  }else{
+    htmx.addClass(htmx.find("#menu"), "hidden")
+    htmx.removeClass(htmx.find("#menu"), "block")
+  }
+}
+
+templ Select(categories []model.Category){
+  <div class="relative">
+    <button class="bg-stone-900 border border-stone-800 text-white py-2 px-4 rounded-sm" onclick={toggleMenu()}>Please Select &nbsp;&nbsp; v</button>
+    <div id="menu" class="flex flex-col left-0 top absolute w-80 hidden border border-stone-800">
+      
+      for _, r := range categories{
+        <a class="text-white py-2 px-4 hover:cursor-pointer bg-stone-900 hover:bg-black" href={templ.URL("/list/"+string(r))}>{string(r)}</a>
+      }
+      
+    </div>
+  </div>
 }
 	
