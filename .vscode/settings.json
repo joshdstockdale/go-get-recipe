@@ -1,3 +1,10 @@
 {
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "tailwindCSS.includeLanguages": {
+    "templ": "html"
+  },
+  "editor.formatOnSave": true,
+  "[templ]": {
+    "editor.defaultFormatter": "a-h.templ"
+  }
 }

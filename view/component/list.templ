@@ -4,16 +4,16 @@ import (
 	"get-recipe-inator/model"
 )
 
-templ List(recipes []model.Recipe){
-  <h2>Recipes</h2>
-  <div class="flex flex-wrap gap-4">
-  for _, r := range recipes{
-    <div class="w-52 flex">
-      <a class="text-white hover:cursor-pointer" href={templ.URL("/detail/"+r.Url)} >
-      <img src={r.Img[0]} class="w-52" />
-      {r.Title}
-      </a>
-    </div>
-  }
-  </div>
-}	
+templ List(recipes []model.Recipe) {
+	<h2>Recipes</h2>
+	<div class="flex flex-wrap gap-4">
+		for _, r := range recipes {
+			<div class="w-52 flex">
+				<a class="text-white hover:cursor-pointer" href={ templ.URL("/detail/" + r.Url) }>
+					<img src={ r.Img[0] } class="w-52"/>
+					{ r.Title }
+				</a>
+			</div>
+		}
+	</div>
+}
