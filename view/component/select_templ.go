@@ -55,7 +55,7 @@ func Select(categories []model.Category) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-stone-900 border border-stone-800 text-white py-2 px-4 rounded-sm\" onclick=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-stone-900  border border-stone-800 text-white py-2 px-4 rounded-sm\" onclick=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

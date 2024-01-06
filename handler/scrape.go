@@ -37,9 +37,77 @@ func InitUrls() []model.List{
 			Title: ".headline",
 			Img: []string{"img"},
 			Url: "https://www.inspiredtaste.net/category/recipes/main-dishes/",
-			Include: []string{"Pork", "Beef", "Burger", "Steak", "Ribs", "BBQ", "Chili"},
+			Include: []string{"Taco", "Spanish", "Mexican", "Burrito"},
+			Exclude: []string{"Chicken", "Turkey"},
+			Category: model.Taco,
+			Paginator: "a.page",
+			Recipe: model.Recipe{
+				Selector: ".post_box",
+				Title: ".headline",
+				Img: []string{".ytcover", "img"},
+				Ingredients: []string{".itr-ingredients p"},
+				Url: ".featured_image_link",
+			},
+		},
+		{
+			Selector: ".box-container .post_box",
+			Title: ".headline",
+			Img: []string{"img"},
+			Url: "https://www.inspiredtaste.net/category/recipes/main-dishes/",
+			Include: []string{"Lasagna", "Ziti", "Spaghetti", "Pasta", "Meatball"},
+			Exclude: []string{"Chicken", "Turkey"},
+			Category: model.Pasta,
+			Paginator: "a.page",
+			Recipe: model.Recipe{
+				Selector: ".post_box",
+				Title: ".headline",
+				Img: []string{".ytcover", "img"},
+				Ingredients: []string{".itr-ingredients p"},
+				Url: ".featured_image_link",
+			},
+		},
+		{
+			Selector: ".box-container .post_box",
+			Title: ".headline",
+			Img: []string{"img"},
+			Url: "https://www.inspiredtaste.net/category/recipes/main-dishes/",
+			Include: []string{"Fish", "Salmon", "Talapia", "Mahi"},
+			Exclude: []string{"Chicken", "Turkey"},
+			Category: model.Fish,
+			Paginator: "a.page",
+			Recipe: model.Recipe{
+				Selector: ".post_box",
+				Title: ".headline",
+				Img: []string{".ytcover", "img"},
+				Ingredients: []string{".itr-ingredients p"},
+				Url: ".featured_image_link",
+			},
+		},
+		{
+			Selector: ".box-container .post_box",
+			Title: ".headline",
+			Img: []string{"img"},
+			Url: "https://www.inspiredtaste.net/category/recipes/main-dishes/",
+			Include: []string{"Pork", "Beef", "Burger", "Steak", "Ribs", "BBQ"},
 			Exclude: []string{"Chicken", "Turkey"},
 			Category: model.Burger,
+			Paginator: "a.page",
+			Recipe: model.Recipe{
+				Selector: ".post_box",
+				Title: ".headline",
+				Img: []string{".ytcover", "img"},
+				Ingredients: []string{".itr-ingredients p"},
+				Url: ".featured_image_link",
+			},
+		},
+		{
+			Selector: ".box-container .post_box",
+			Title: ".headline",
+			Img: []string{"img"},
+			Url: "https://www.inspiredtaste.net/category/recipes/main-dishes/",
+			Include: []string{"Soup", "Chili"},
+			Exclude: []string{"Chicken", "Turkey"},
+			Category: model.Soup,
 			Paginator: "a.page",
 			Recipe: model.Recipe{
 				Selector: ".post_box",
@@ -52,7 +120,7 @@ func InitUrls() []model.List{
 	}
 }
 func (u UrlHandler) HandleHome(cx echo.Context)error{
-	categories := []model.Category{model.Asian, model.Burger, model.Soup}
+	categories := []model.Category{model.Asian, model.Taco, model.Pasta, model.Fish, model.Burger, model.Soup}
 	category := cx.Param("category")
 	url := cx.Param("url")
 	return render(cx, page.Index(categories, category, url))
