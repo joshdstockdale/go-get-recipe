@@ -1,4 +1,4 @@
-# Web scraper to get Recipes based on style
+# Web scraper to get recipes based on style of cooking
 
 ## Prerequisites
 
