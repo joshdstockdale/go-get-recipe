@@ -14,7 +14,7 @@ Documentation
 https://echo.labstack.com
 ```
 
-## Run
+## Run locally
 ```
 npm install
 npm run build:css
